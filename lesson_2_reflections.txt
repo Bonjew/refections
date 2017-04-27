@@ -1,25 +1,63 @@
 What happens when you initialize a repository? Why do you need to do it?
 初始化版本库时会发生什么情况？为什么你需要这样做？
+
 git init初始化版本库，会在文件夹中创建.git文件夹，其中包含了版本控制文件。
 这样我们就可以使用git对文件的内容进行版本控制了。
 
-
+-------------------------------------------------------------------------------
 How is the staging area different from the working directory and the repository?
 What value do you think it offers?
 暂存区与工作目录和版本库有何不同？你认为它具有什么价值？
 
+暂缓区介于工作目录和版本库之间，它的存在，给了我们一个空间去存放一堆我们更改的一些东西，我们
+在修改、编辑版本库的时候，经常会东改西改，东没改完来改西，又来改东......这给了我们一个机会，
+当我们做多项不同意义的修改时，其中一项完成了，我们可以从暂缓区中选择具有相同意义的修改放在一
+起，作为一个commit提交上去。从而排除掉和本次提交意义不相关的更改。
 
-
+-------------------------------------------------------------------------------
 How can you use the staging area to make sure you have one commit per logical
 change?
+如何使用暂存区确保为每项逻辑更改进行一次提交？
 
+使用git add将逻辑相关的更改提交到暂存区，不确定或者不是相关的更改，我们不做此操作，之后我们
+git commit不会提交没有add的更改。
+如果没有add的更改没有必要，我们可以在commit掉逻辑之后，使用git reset --hard删除掉它们。
+git reset --hard会删掉最新的commit之后，在工作区和暂缓区的所有更改。这个删除是不饿能恢复
+的，因为git的恢复操作，需要以commit作为节点，没有commit的内容，无法恢复。
+
+-------------------------------------------------------------------------------
 What are some situations when branches would be helpful in keeping your history
 organized? How would branches help?
+在哪些情况下，分支可以帮助你有序地组织历史记录？分支将如何提供帮助？
 
+在我么需要给项目添加新的功能，或者做一个实验，或者是更改某一个设置等，而在我做这些的同时，我不
+想破坏我原来定好的一个稳定的版本，因而在新的行动是否能成功的不确定性下，另起一个分支来做。分支
+里面的更改不会影响原来的版本，在分支任务完成之后，我们可以将分支合并到原来的版本中，从而形成一
+个新的版本。
+
+-------------------------------------------------------------------------------
 How do the diagrams help you visualize the branch structure?
+图表如何帮助你直观显示分支结构？
 
+图表能让我们知道没一个commit的前面一个commit，也就是父commit，从而知道该commit的行为内容，
+我们在观察commit的更改内容时，要追溯的是commit，而不是branch，我们通过对比commits判断最后
+该有的工作结果。
+图标观察命令：git log --graph -oneline branch1 branch2
+
+-------------------------------------------------------------------------------
 What is the result of merging two branches together? Why do we represent it in
 the diagram the way we do?
+将两个分支合并到一起有何结果？为什么我们在图表中表示它的方式是那样的？
 
+合并分支将需要并入的分支并入到了我们当前检出的分支。两个分支最后指向了一个分支，而这个分支的
+开始的点成了两个分支的头端，往回追溯commit的时候，会顺着两个分支各自的commit追溯，但是两个
+分支的commit在log中的混在一起以时间排列了，用图标显示会更直观一些。始终记住，要关注到的是点，
+而不是一整个分支线。
+我们在git log中，找一个分支某个commit点的上一个commit很难的时候，我们就用指令：git show Id。
+
+-------------------------------------------------------------------------------
 What are the pros and cons of Git鈥檚 automatic merging vs. always doing merges
 manually?
+Git 的自动合并与始终手动进行合并各有何优缺点？
+
+
